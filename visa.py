@@ -1,19 +1,19 @@
-# # for i in range(1,100):
-# #     if i%3==0 and i%5==0:
-# #         print("sss")
-# #     elif i % 5== 0:
-# #         print("ww")
-# #     else:
-# #         print(i)
+for i in range(1,100):
+    if i%3==0 and i%5==0:
+        print("sss")
+    elif i % 5== 0:
+        print("ww")
+    else:
+        print(i)
 # # =======================
-# def transition_array(a):
-#             b=[]
-#             for i in range(len(a)):
-#                 if i==0 or  a[i-1] % 2 == 0:
-#                     b.append(a[i])
-#                 else:
-#                     b.append(a[i] + 1)
-#             return b
+def transition_array(a):
+            b=[]
+            for i in range(len(a)):
+                if i==0 or  a[i-1] % 2 == 0:
+                    b.append(a[i])
+                else:
+                    b.append(a[i] + 1)
+            return b
 # # #         # ===============
 # count = 0
 # k=3
