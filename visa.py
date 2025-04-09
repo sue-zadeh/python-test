@@ -15,23 +15,23 @@ def transition_array(a):
                     b.append(a[i] + 1)
             return b
 # # #         # ===============
-# count = 0
-# k=3
-# a = [1, 2, 3, 4, 5]
-# for i in range(len(a)):
-#  for j in range (i+1, len(a)):
-#      if (a[i] +a[j]) % k ==0:
-#          count+=1
-# print(count)
+count = 0
+k=3
+a = [1, 2, 3, 4, 5]
+for i in range(len(a)):
+ for j in range (i+1, len(a)):
+     if (a[i] +a[j]) % k ==0:
+         count+=1
+print(count)
 
 # # # =====
-# a=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-# k=5
-# for i in range (len(a)):
-#      for j in range (i+1, len(a)):
-#           if (a[i] + a[j]) % k ==0:
-#             count+=1
-# print(count)
+a=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+k=5
+for i in range (len(a)):
+     for j in range (i+1, len(a)):
+          if (a[i] + a[j]) % k ==0:
+            count+=1
+print(count)
 
 # # ==========================
 # # Try this:
