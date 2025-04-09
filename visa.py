@@ -40,24 +40,19 @@ print(count)
 # # b[i] = a[i] * 2 if a[i] is even, otherwise b[i] = a[i] + 1
 
 # # Example input:
-# # python
-# # Copy
-# # Edit
 # # a = [2, 3, 4, 5]
 # # Expected output:
-# # python
-# # Copy
-# # Edit
 # # b = [4, 4, 8, 6]
+
 # # Give it a try. You can use .append() and for loop. Let me know if you want a small hint 😄 You're doing so good!
-# a = [2, 3, 4, 5]
-# b = []
-# for i in range(len(a)):
-#     if a[i] % 2 == 0:
-#         b.append(a[i] * 2)
-#     else:
-#         b.append(a[i] + 1)
-# print(b)  # Output should be: [4, 4, 8, 6]
+a = [2, 3, 4, 5]
+b = []
+for i in range(len(a)):
+    if a[i] % 2 == 0:
+        b.append(a[i] * 2)
+    else:
+        b.append(a[i] + 1)
+print(b)  # Output should be: [4, 4, 8, 6]
 
 # =======================
 
