@@ -54,6 +54,19 @@ for i in range(len(a)):
         b.append(a[i] + 1)
 print(b)  # Output should be: [4, 4, 8, 6]
 
+
+c=[4,5,2,3,6,2]
+def solution (c):
+    b=[]
+    for i in range (len(c)):
+        if a %2==0:
+            b.append(c[i]*2)
+        else:
+            b.aapend(c[i] + 1)
+    return b # output should be [8, 6, 4, 4, 12, 4]
+    
+
+
 # =======================
 
 a = [2, 3, 4, 5]
@@ -596,8 +609,6 @@ print(solution("hello world heyyy rrddd"))  # Output: [['l', 3], ['o', 2]]
 
 # Here's an example:
 
-# Python
-# Copy to clipboard
 # print(replace_character("hello, world", "o", "a"))  
 # # Output: "hella, warld"
 # In this example, all occurrences of o have been replaced by a.
@@ -796,6 +807,17 @@ for i in range (len(a)):
         b.append(a[i] )
 print(b)
 # =========================
+def solution(a):
+    b=[]
+    for i in range(len(a)):
+        if a[i] % 2 == 0:
+            b.append[a[i]]
+        else:
+           if a[i] % 2 != 0:
+            b.append(a[i] + a[i-1]) 
+    return b
+print(solution([2, 5, 4, 7, 8], []))  # Output: [2, 7, 4, 11, 8]
+
 # Task:
 # Write a Python function that takes a sentence (string) and returns the longest word in that sentence.
 # If there are two or more words with the same length, return the first one that appears.

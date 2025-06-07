@@ -54,3 +54,63 @@ def solution(numbers):
     if numbers[i] > numbers[i + 1] > numbers[i + 2]:
         return False
     return [i]    
+# Step 1: Create an empty result string to store clean letters
+# Step 2: Loop through input string
+# Step 3: Keep only letters (A-Z, a-z)
+# Step 4: Convert uppercase to lowercase using ASCII
+# Step 5: Compare cleaned string to its reverse
+
+def solution(s):
+    result = ""  # This is our result string
+
+    for char in s:
+         # Keep letters only
+        if 65 <= ord(char) <= 90:  # A-Z
+            result += chr(ord(char) + 32)  # Convert to lowercase
+        elif 97 <= ord(char) <= 122:  # a-z
+            result += char
+
+    # Now check if it's a palindrome
+    if result == result[::-1]:  # This means reversed version of string
+        return True
+    else:
+        return False
+     
+# Example 2: Capitalize first letter of each word (collecting)
+# ❓ Task:
+# Write a function that capitalizes the first letter of each word in a string.
+# Words are separated by space.
+
+# def solution(s):
+#     result = []
+#     for word in words:
+#       if word== "":
+#         countinue:
+#         if firstletter == '':
+            
+            # Step 1: Create an empty result string to store clean letters
+# Step 2: Loop through input string
+# Step 3: Keep only letters (A-Z, a-z)
+# Step 4: Convert uppercase to lowercase using ASCII
+# Step 5: Compare cleaned string to its reverse
+def solution(s):
+    cleaned = ""  # This is our result string
+
+    for char in s:
+        ascii_code = ord(char)
+
+        # Keep letters only
+        if 65 <= ascii_code <= 90:  # A-Z
+            cleaned += chr(ascii_code + 32)  # Convert to lowercase
+        elif 97 <= ascii_code <= 122:  # a-z
+            cleaned += char
+
+    # Now check if it's a palindrome
+    if cleaned == cleaned[::-1]:  # This means reversed version of string
+        return True
+    else:
+        return False
+# Example usage
+print(solution("Was it a car or a cat I saw?"))  # Should return True
+# Example usage
+print(solution("Hello, World!"))  # Should return False

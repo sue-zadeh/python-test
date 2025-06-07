@@ -229,3 +229,33 @@ print(solution("hello"))   # ➜ "ehllo"
 
 # It is not allowed to use Python built-in functions like reverse(), reversed(), or similar in this task.
 
+def solution(s):
+   result = []
+   char = s[i]
+   for i in range (len(s) // 2):
+      if 65 <= ord(char) <= 97:
+       result.append(chr(ord(char) + 32))
+       if result[i] != result[i -1-i]:
+        return False
+      else:
+         return True
+      
+# ================================
+# You are given a string input_string, your task is to write a function that checks if the string is a palindrome.
+def solution(input_string):
+    cleaned = []
+    for char in input_string:
+        code = ord(char)
+        # Convert uppercase to lowercase
+        if 65 <= code <= 90:  # 'A' to 'Z'
+            cleaned.append(chr(code + 32))
+        elif 97 <= code <= 122:  # 'a' to 'z'
+            cleaned.append(char)
+        # ignore non-letters
+
+    # Check palindrome manually
+    n = len(cleaned)
+    for i in range(n // 2):
+        if cleaned[i] != cleaned[n - 1 - i]:
+            return False
+    return True
