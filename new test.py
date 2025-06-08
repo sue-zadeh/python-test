@@ -75,6 +75,8 @@ def solution(s):
         return True
     else:
         return False
+# Example 1: Check if a string is a palindrome (collecting)
+
      
 # Example 2: Capitalize first letter of each word (collecting)
 # ❓ Task:

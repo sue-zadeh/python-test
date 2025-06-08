@@ -111,7 +111,7 @@ def count_min(numbers):
         return 0  # ✅ check empty list FIRST
 
     smallest = numbers[0]
-    count_min = 1  # ✅ define after checking for empty list
+    count_min = 0  # ✅ define after checking for empty list
 
     for i in range(1, len(numbers)):
         if numbers[i] < smallest:
@@ -121,11 +121,11 @@ def count_min(numbers):
             count_min += 1
 
     return count_min
-print( count_min([3, 1, 2, 1, 4, 1, 1, 1 ])) 
+print( count_min([3, 1, 2, 1, 4,0  ])) 
 
 
 # You are given a list of integers. Your task is to write a Python function
-# to find the second-largest number among these integers. If the list has fewer
+# to find the  among these integers. If the list has fewer
 # than two unique numbers, return None.
 
 # You are not allowed to use any built-in Python functions or methods such as
@@ -281,7 +281,7 @@ def split_camel_case(s):
     word = ""       # Builds the current word letter-by-letter
 
     for char in s:  # Go through each letter in the string
-        if 65 <= ord(char) <= 90:  # If it's an uppercase letter (A–Z)
+        if 65 <= ord(char) <= 90:  # If   it's an uppercase letter (A–Z)
             if word != "":         # If we already have a word (means it ended)
                 result.append(word)  # Save the completed word
             word = chr(ord(char) + 32)  # Start new word with lowercase of uppercase
@@ -326,7 +326,7 @@ def split_camel_case_with_index(s):
 
     return result
 
-split_camel_case_with_index("myVariableNameInCamel")
+print(split_camel_case_with_index("myVariableNameInCamel"))
 # → ["my", "variable", "name", "in", "camel"]
 
 #================================
@@ -364,3 +364,44 @@ print(is_prime(11)) # Outputs: True
 
 def is_perfect_square(n):
    pass
+
+# You are given an integer number n. The task is to determine if this number 
+# is a perfect square or not. A perfect square is a number that can be expressed
+# as the product of an integer with itself. For example, 1 = 1 * 1, 4 = 2 * 2, 9 = 3 * 3, 
+# and 16 = 4 * 4 are perfect squares, but 2, 3, 5, and 6 are not.
+
+# Implement a function is_perfect_square(n) that returns True if the given number n is
+# a perfect square and False otherwise.
+
+def is_perfect_square(n):
+    if n < 0:
+     return False
+    for i in range(int(n**0.5) + 1):
+        if i * i == n:
+         return True
+    return False
+
+# You are given an integer number, 1 ≤ n ≤ 10**6
+
+# Your task is to write a function next_prime(n), that takes an integer n as
+# input and returns the smallest prime number larger than n.
+
+# Here are some examples:
+
+# next_prime(7) should return 11, because 11 is the next prime number after 7.
+# next_prime(13) should return 17, because 17 is the next prime number after 13.
+# next_prime(50) should return 53, because 53 is the next prime number after 50.
+def next_prime(n):
+    for nextprime in range(n + 1, n * 2):  # Look ahead safely up to n*2
+        is_prime = True                   # Assume it's prime unless proven wrong
+
+        for i in range(2, int(nextprime ** 0.5) + 1):  # Check divisibility
+            if nextprime % i == 0:
+                is_prime = False          # Not prime
+                break                     # No need to check more
+
+        if is_prime:
+            return nextprime              # ✅ First prime found, return it
+print(next_prime(7))   # → 11  
+print(next_prime(13))  # → 17  
+print(next_prime(50))  # → 53  
