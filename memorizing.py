@@ -405,3 +405,120 @@ def next_prime(n):
 print(next_prime(7))   # → 11  
 print(next_prime(13))  # → 17  
 print(next_prime(50))  # → 53  
+
+# Your task is to create a Python function called get_prime_factors(n) 
+# that will return all unique prime factors of an integer n in a list. 
+# A prime factor of n is a prime number that divides n without leaving a remainder. 
+# The expected complexity is ((n))O(** n)).
+# Note that returned prime factors should be unique and sorted in ascending order in the resulting list.
+
+def get_prime_factors(n):
+    result = []  # This list will store unique prime factors
+
+    # Try every number i from 2 up to n (not just sqrt(n), since we don't use while)
+    for i in range(2, n + 1):
+
+        # Skip if i is not a factor of n
+        if n % i != 0:
+            continue  # go to next i
+
+        # Check if i is prime
+        is_prime = True  # Assume i is prime
+
+        for j in range(2, int(i**0.5) + 1):  # Try dividing i by numbers up to √i
+            if i % j == 0:
+                is_prime = False  # i is not prime
+                break  # stop checking this i
+
+        if is_prime:  # if i is a prime number
+            # Check if it's already in result to avoid duplicates
+            already_in = False
+            for k in result:
+                if k == i:
+                    already_in = True
+                    break
+
+            if not already_in:
+                result.append(i)  # Add i to the result list
+
+    # Now sort result manually using Bubble Sort
+    for i in range(len(result)):
+        for j in range(0, len(result) - i - 1):
+            if result[j] > result[j + 1]:
+                temp = result[j]
+                result[j] = result[j + 1]
+                result[j + 1] = temp
+
+    return result  # Return the sorted list of unique prime factors
+
+print(get_prime_factors(123456)) #→ [2, 3, 643] 
+print(get_prime_factors(45))     #→ [3, 5]
+print(get_prime_factors(84))     #→ [2, 3, 7]
+
+# You are provided with two integers, a and b. 
+# Your task is to write a Python function that checks whether both a and b are co-prime or not.
+# Two numbers are said to be co-prime or mutually prime if the only positive integer
+# that divides both of them is 1. The expected complexity is 
+# O(max⁡(a))O(max(a,b)​
+ 
+#  print(are_coprime(15, 28))   # Output: True
+# print(are_coprime(12, 18))   # Output: False
+
+def are_coprime(a, b):
+    # Check for any common divisor from 2 up to min(a, b)
+    for i in range(2, min(a, b) + 1):
+        if a % i == 0 and b % i == 0:
+            return False  # Found a common divisor, so not co-prime
+    return True  # No common divisor found, so they are co-prime
+print(are_coprime(15, 28))  # ✅ True
+print(are_coprime(12, 18))  # ❌ False
+
+
+# You are given a number n. Your task is to write a function that will return the n-th prime number. 
+# The expected complexity is 
+# O(n⋅n)O(n⋅n​ ).
+# For example, if n is 1, the function should return 2. If n is 3, the function
+#  should return the third prime number, which is 5.
+
+def nth_prime(n: int) -> int:
+    result = []  # This will store prime numbers found
+
+    # We'll try numbers from 2 up to a large range (guaranteed to find nth prime)
+    for number in range(2, 100000):  # Big enough range to reach up to 10000+ primes
+        is_prime = True  # Assume current number is prime
+
+        # Check if current number is divisible by anything before it
+        for i in range(2, int(number**0.5) + 1):  # Check up to square root
+            if number % i == 0:  # If divisible, it's not prime
+                is_prime = False
+                break  # Stop checking further
+
+        # If it's still prime, add it to the result list
+        if is_prime:
+            result.append(number)
+
+        # If we have found enough primes, return the nth one
+        if len(result) == n:
+            return result[-1]  # The last one added is the nth prime
+
+    # Fallback (should never reach here if range is big enough)
+    return -1
+
+# You are given a list of n integers. Your task is to find the zero-based index of the first
+# occurrence of this specific value in the list. If the provided value isn't found in the list at all, 
+# return -1 instead.
+
+# In this task, you must implement the solution without using any built-in functions or methods.
+# Specifically, the use of the Python index() method of a list is not allowed in your solution.
+
+def find_index(nums, target):
+    # Loop through the list using a for loop
+    for i in range(len(nums)):  # i is the index
+        if nums[i] == target:   # if current value is equal to the target
+            return i            # return the current index (zero-based)
+    
+    # If not found at all, return -1
+    return -1
+print(find_index([4, 7, 9, 2], 9))   # ➤ 2
+print(find_index([1, 2, 3, 4], 5))   # ➤ -1
+print(find_index([10, 20, 10, 30], 10))  # ➤ 0 (first occurrence)
