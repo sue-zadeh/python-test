@@ -107,3 +107,30 @@ def get_prime_factors(n):
 print(get_prime_factors(123456)) #→ [2, 3, 643] 
 print(get_prime_factors(45))     #→ [3, 5]
 print(get_prime_factors(84))     #→ [2, 3, 7]
+
+# Task: sumDivisibleByK
+# You're given:
+
+# an array a of integers
+
+# a number k
+
+# Your goal:
+# 👉 Count the number of unique index pairs i < j where
+#   (a[i] + a[j]) % k == 0
+def solution(a, k):
+    result = []  # to collect valid pairs
+    count = 0   # to count valid pairs
+    # loop through all index pairs (i, j) where i < j
+    for i in range(len(a)):
+        for j in range(i + 1, len(a)):  # ensures i < j
+            # check if the sum of a[i] and a[j] is divisible by k
+            if (a[i] + a[j]) % k == 0:
+                result.append((a[i], a[j]))  # save the pair
+                count += 1
+
+    return (result, count)  
+# Example usage:
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+k = 3
+print(solution(a, k))  # Output: ([(1, 2), (1, 5), (2, 4), (3, 6), (4, 5), (6, 9), (7, 8)], 7)
