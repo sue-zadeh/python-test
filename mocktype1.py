@@ -305,3 +305,121 @@ print(find_missing([1, 2, 4, 5]))  # Output: 3
 # Type: 1️⃣ Simple nested loop
 
 # 🧠 Find two numbers that add up to a target.
+# Input: [2, 7, 11, 15], target = 9  
+# → Output: (2, 7)
+def two_sum(a, target):
+    for i in range(len(a)):
+        for j in range(i + 1, len(a)):  # ensure i < j
+            if a[i] + a[j] == target:  # check if they add up to target
+                return (a[i], a[j])  # return the pair found
+    return None  # if no pair found
+
+#  Task 6 – Majority Element
+# Type: 1️⃣ Count logic manually
+# 🧠 Return the number that appears more than n/2 times.
+# Input: [3, 3, 4, 2, 3] → Output: 3
+def majority_element(a):
+ for i in range(len(a)):
+    count =0   # reset for each a[i]
+    for j in range (len(a)):
+       if a[i] == a[j]:
+          count += 1
+          if count> len(a) //2:
+             return (a[i], count)  # return the element and its count
+ return (-1 , 0)  # if no majority element found
+print(majority_element([3, 6, 6, 6, 6, 6, 6, 6, 4, 2, 3]))  # Output: (6, 7)
+
+# Task 7 – Check if a Number is Prime
+# Type 1 – Basic math logic
+        # Here's a quick and efficient way to check if a number n is prime:
+# we iterate through 2 to the square root of n. If n is divisible by any of these numbers,
+# it's not a prime number. If n is not divisible by any of the numbers in the range,'
+# ' then it's a prime number.
+
+# Here is how the solution will look like:
+def is_prime(n):
+    """Function to check if n is a prime number"""
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+print(is_prime(7))   # True
+print(is_prime(10))  # False
+
+#  Task 8 – GCD of Two Numbers
+# Type 1 – Use loop to find greatest common divisor
+def gcd(a, b):
+  result =1
+  for i in range(1, min(a,b)+ 1):
+     if a % i == 0 and b % i == 0:
+        result = i
+  return result  # return the greatest common divisor found
+
+
+print(gcd(12, 18))  # Output: 6
+
+# Task 9 – Valid Parentheses
+# Type 1 (Simulate Stack using string)
+def valid_parentheses(s):
+  stack = ""  # simulate stack using string
+  for char in s:
+     if char =="(":
+        stack +=char # push opening bracket
+     elif char ==")":
+        if stack: '' # if stack is not empty
+        stack = stack[:-1]  # pop last character
+  return stack == ""  # if stack is empty, parentheses are valid
+print(valid_parentheses("()"))     # True
+print(valid_parentheses("()[]{}")) # True
+print(valid_parentheses("([{}])")) # True
+print(valid_parentheses(")("))     # False
+print(valid_parentheses(")("))     # False  
+print(valid_parentheses("(())"))   # True
+print(valid_parentheses("(()"))    # False
+
+
+# 4. Implement a Queue using Stacks
+# (Still Type 1 because it’s simulation with lists)
+
+# We’ll simulate enqueue (push) and dequeue (pop) with two lists.
+# To simulate a Queue (FIFO: First-In, First-Out) behavior using two Stacks (LIFO: Last-In, First-Out).
+# We use:
+# stack_in for pushing new elements
+# stack_out for removing elements in correct order
+def queue_simulator(operations, values):
+    stack_in = []     # stack to store new items (push here)
+    stack_out = []    # stack to reverse items for correct order (pop here)
+    result = []       # list to store results of each dequeue
+
+    # loop through all operations
+    for i in range(len(operations)):
+        if operations[i] == "enqueue":
+            # if operation is enqueue, add value to stack_in
+            stack_in.append(values[i])
+
+        elif operations[i] == "dequeue":
+            # if stack_out is empty, we need to refill it
+            if len(stack_out) == 0:
+                # move all items from stack_in to stack_out
+                for j in range(len(stack_in) - 1, -1, -1):
+                    stack_out.append(stack_in[j])  # add item from end of stack_in
+                stack_in = []  # clear stack_in after moving all
+
+            # now if stack_out has something, pop and return it
+            if len(stack_out) > 0:
+                item = stack_out[-1]          # get the last item
+                stack_out = stack_out[:-1]    # remove it from stack_out
+                result.append(item)           # store it in result
+            else:
+                # if both stacks are empty, nothing to return
+                result.append(None)
+
+    return result  # return final results list
+
+
+ops = ["enqueue", "enqueue", "enqueue", "dequeue", "dequeue"]
+vals = [1, 2, 3, None, None]
+
+print(queue_simulator(ops, vals))  # Output: [1, 2]

@@ -30,3 +30,13 @@ example_words = ["apple", "banana", "orange"]
 print(can_split_camel_case(example_words, "appleBanana"))  # ✅ True
 print(can_split_camel_case(example_words, "appleOrange"))  # ✅ True
 print(can_split_camel_case(example_words, "appleWater"))   # ❌ False
+
+# ✅ Task – Merge Intervals
+# Type 2 or Type 3 depending on how deep it goes.
+# 🧠 You're given a list of intervals like:
+
+
+# [[1, 3], [2, 4], [6, 8]]
+# Goal: Merge overlapping ones.
+def merge_intervals(intervals):
+    pass

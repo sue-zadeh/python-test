@@ -380,6 +380,9 @@ def is_perfect_square(n):
         if i * i == n:
          return True
     return False
+# Example usage:
+print(is_perfect_square(16))  # Output: True (4 * 4)
+print(is_perfect_square(20))  # Output: False (not a perfect square)
 
 # You are given an integer number, 1 ≤ n ≤ 10**6
 
