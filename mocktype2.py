@@ -31,63 +31,83 @@ print(can_split_camel_case(example_words, "appleBanana"))  # ✅ True
 print(can_split_camel_case(example_words, "appleOrange"))  # ✅ True
 print(can_split_camel_case(example_words, "appleWater"))   # ❌ False
 
-# ✅ Task – Merge Intervals
-# Type 2 or Type 3 depending on how deep it goes.
-# 🧠 You're given a list of intervals like:
+# # ✅ Task: Merge Intervals
+# 🧠 Type: 2️⃣ Sorting & Searching
+# 🧪 Also Seen In: Visa coding tests
+# 📘 Full Task Description:
 
-# [[1, 3], [2, 4], [6, 8]]
-# Goal: Merge overlapping ones.
+# You're given a list of intervals, where each interval is a pair of numbers:
+#  the start and end of a time range (or segment).
+# If any intervals overlap, your goal is to merge them into one continuous interval.
+# Input:  [[1, 3], [2, 6], [8, 10], [15, 18]]
+# Output: [[1, 6], [8, 10], [15, 18]]
+# ❓ Why:
+# [1, 3] and [2, 6] overlap, so we merge them into [1, 6].
+# [8, 10] and [15, 18] don’t overlap with others — they stay as they are.
+
 def merge_intervals(intervals):
-    # Step 1: Sort intervals based on the start time
+    # Step 1: Sort the intervals by their start time using nested loops
     for i in range(len(intervals)):
         for j in range(i + 1, len(intervals)):
             if intervals[i][0] > intervals[j][0]:
+                # Swap to sort based on starting value
                 intervals[i], intervals[j] = intervals[j], intervals[i]
 
-    merged = [intervals[0]]  # Start with the first interval
+    merged = [intervals[0]]  # Start with the first interval as initial merged one
 
+    # Step 2: Go through each interval and merge if they overlap
     for i in range(1, len(intervals)):
-        start = intervals[i][0]
-        end = intervals[i][1]
-        last_end = merged[-1][1]
+        start = intervals[i][0]       # current interval's start
+        end = intervals[i][1]         # current interval's end
+        last_end = merged[-1][1]      # end of the last merged interval
 
-        # If current start is less than or equal to last merged end, merge
         if start <= last_end:
-            merged[-1][1] = max(merged[-1][1], end)
+            # Merge: update the end of last interval if overlapping
+            if end > last_end:
+                merged[-1][1] = end
         else:
-            merged.append(intervals[i])  # No overlap, add new interval
+            # No overlap: just add the interval
+            merged.append(intervals[i])
 
     return merged
+
+print(merge_intervals([[1, 3], [2, 6], [8, 10], [15, 18]]))  # ✅ Output: [[1, 6], [8, 10], [15, 18]]
 
 print(merge_intervals([[1, 3], [2, 6], [8, 10], [15, 18]]))  # ✅
 
 # Task 2: Binary Search
 # 🧠 Type: 2️⃣ – Classic sorted array search
 # 📘 Goal: Find the index of a target in a sorted array.
-
+# 🔍 Task:
+# Given a sorted list of numbers and a target number, find the index of that target using binary search.
 # 📝 Example:
 # Input: nums = [1, 3, 5, 7, 9], target = 5
 # Output: 2
-def quicksort(arr):
-    if len(arr) <= 1:
-        return arr
+def binary_search(nums, target):
+    left = 0
+    right = len(nums) - 1
 
-    pivot = arr[0]  # First element as pivot
-    left = []
-    right = []
+    # Loop enough times to cover the search space
+    for _ in range(len(nums)):
+        if left > right:
+            break  # stop if range is invalid
 
-    for i in range(1, len(arr)):
-        if arr[i] < pivot:
-            left.append(arr[i])
+        mid = (left + right) // 2  # calculate middle
+
+        if nums[mid] == target:
+            return mid  # found!
+        elif nums[mid] < target:
+            left = mid + 1  # search right half
         else:
-            right.append(arr[i])
+            right = mid - 1  # search left half
 
-    return quicksort(left) + [pivot] + quicksort(right)
+    return -1  # not found
 
-print(quicksort([3, 6, 2, 8, 4, 1]))  # Output: [1, 2, 3, 4, 6, 8]
+print(binary_search([1, 3, 5, 7, 9], 5))  # ✅ Output: 2
 
 
 
+#*****************************************
 # ✅ Task 3: Quicksort (Sort an Array)
 # 🧠 Type: 2️⃣ – Sorting Algorithm
 # 📘 Goal: Sort an array using quicksort.
@@ -110,3 +130,39 @@ def quicksort(arr):
     return quicksort(left) + [pivot] + quicksort(right)
 
 print(quicksort([3, 6, 2, 8, 4, 1]))  # Output: [1, 2, 3, 4, 6, 8]
+
+# 🔷 Task 3 – Longest Substring Without Repeating Characters
+# Type: 2️⃣ – Sliding Window (String + Hashing)
+
+# Goal: Find the length of the longest substring with all unique characters.
+def longest_unique_substring(s):
+    max_len = 0                    # Track maximum length
+    start = 0                      # Start of current unique substring
+    seen = []                      # Track characters in current window
+
+    for i in range(len(s)):        # Go through each character by index
+        repeated = False           # Check if current char was seen before
+
+        # Manually check for repetition using a for loop
+        for j in range(len(seen)):
+            if s[i] == seen[j]:    # If current char exists in seen list
+                repeated = True    # Mark as repeated
+                # Move start to 1 past the previous same character
+                start += j + 1     # Skip everything before and including repeated char
+                break              # Exit the loop as we found duplicate
+
+        # Rebuild seen list from new start
+        seen = []                  # Clear and rebuild
+        for k in range(start, i + 1):
+            seen.append(s[k])      # Rebuild the list from start to i
+
+        # Update maximum length if longer window found
+        if len(seen) > max_len:
+            max_len = len(seen)
+
+    return max_len
+
+# ✅ Test cases
+print(longest_unique_substring("abcabcbb"))  # Output: 3 ("abc")
+print(longest_unique_substring("bbbbb"))     # Output: 1 ("b")
+print(longest_unique_substring("pwwkew"))    # Output: 3 ("wke")
