@@ -55,6 +55,7 @@ def solution(numbers):
     else:
       result.append(0)
   return result
+print(solution([1, 2, 1, 3, 4]))  # Output: [1, 1, 0]
     
 #   Given a list of words (all lowercase), and a single complex word written in camelCase,
 #   check if the camelCase word can be split into valid words from the list.
@@ -93,10 +94,10 @@ def can_split_camel_case(words, camelCase):
 
     # Now check if all split words are in the list
     for part in result:
-        if part not in words:
-            return False  # at least one part is not in list
+        if part in words:
+            return True  # at least one part is not in list
 
-    return True  # all parts matched
+    return False  # all parts matched
 
 example_words = ["apple", "banana", "orange"]
 print(can_split_camel_case(example_words, "appleBanana"))  # Output: True
@@ -250,22 +251,28 @@ print(multiply_numbers([2, 3, 4]))  # Output: 24
 # Input: "hello", "world"    → ❌ False
 
 def is_anagram(s1, s2):
-   if len(s1) != len(s2):
-      return False    # different lengths, can't be anagrams
-   
-   counts1 = 0 * 26   # 26 letters a–z
-   counts2 = 0 * 26
-   
-   for i in range(len(s1)):
-      index =ord(s1[i]) - ord('a') # convert letter to index 0–25
-      counts1 += 1
-      for i in range(len(s2)):
-         index = ord(s2[i]) - ord('a')   
-         counts2 += 1
-     # compare both counts
-      for i in range(26):
-         if counts1[i] != counts2[1]:
-            return False      
+    if len(s1) != len(s2):
+        return False  # different lengths can't be anagrams
+
+    counts1 = [0] * 26  # 26 letters from 'a' to 'z'
+    counts2 = [0] * 26
+
+    # Count letters in s1
+    for i in range(len(s1)):
+        index = ord(s1[i]) - ord('a')  # convert letter to index 0–25
+        counts1[index] += 1            # add 1 to that index
+
+    # Count letters in s2
+    for i in range(len(s2)):
+        index = ord(s2[i]) - ord('a')  # same for s2
+        counts2[index] += 1
+
+    # Compare both count arrays
+    for i in range(26):
+        if counts1[i] != counts2[i]:  # if count doesn't match
+            return False
+
+    return True  # all counts matched
 
 # Task – Count Vowels in a String
 # Type: 1️⃣ – Simple logic
@@ -275,13 +282,13 @@ def is_anagram(s1, s2):
 vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'] 
 def vowel_count(s):
     count =0
-    vowellist =[]
+    result =[]
 
     for wovel in s:
        if wovel in vowels:
           count += 1     #first line: just increase count
-          vowellist.append(wovel)  # second line: add vowel to list
-    return (count, vowellist)
+          result.append(wovel)  # second line: add vowel to list
+    return (count, result)
 
 print(vowel_count("banana"))  # Output: 3 (a, a, a)
 print(vowel_count("apple"))   # Output: 2 (a, e)
@@ -355,7 +362,7 @@ def gcd(a, b):
   for i in range(1, min(a,b)+ 1):
      if a % i == 0 and b % i == 0:
         result = i
-  return result  # return the greatest common divisor found
+  return (result, a, b)  # return the greatest common divisor found
 
 
 print(gcd(12, 18))  # Output: 6
@@ -368,7 +375,8 @@ def valid_parentheses(s):
      if char =="(":
         stack +=char # push opening bracket
      elif char ==")":
-        if stack: '' # if stack is not empty
+        if stack== '': # if stack is empty
+           return False  # if stack is empty, invalid parentheses
         stack = stack[:-1]  # pop last character
   return stack == ""  # if stack is empty, parentheses are valid
 print(valid_parentheses("()"))     # True
@@ -423,3 +431,201 @@ ops = ["enqueue", "enqueue", "enqueue", "dequeue", "dequeue"]
 vals = [1, 2, 3, None, None]
 
 print(queue_simulator(ops, vals))  # Output: [1, 2]
+
+
+# ✅ Type 1 – Mock Exam Question
+# 💻 Task: Count Numbers Greater Than Average
+# Type: 1️⃣ – Simple Logic (no advanced tools)
+# Time Limit: ⏱️ 10 minutes (but you can do it faster!)
+# Loop: Only use for loops
+# Goal:
+# Given a list of integers, return the number of values greater than the average of all numbers in the list.
+
+# 📝 Example:
+# Input: [1, 2, 3, 4, 5]  
+# → Average is 3  
+# → Numbers greater than 3: [4, 5]  
+# → Output: 2
+def count_greater_than_average(numbers):
+    result = []  # to collect numbers greater than average
+    total = 0    # to store the sum of numbers
+
+    # Step 1: calculate the sum
+    for i in range(len(numbers)):
+        total += numbers[i]
+
+    # Step 2: calculate the average
+    average = total // len(numbers)  # integer division
+
+    # Step 3: collect all numbers greater than average
+    for i in range(len(numbers)):
+        if numbers[i] > average:
+            result.append(numbers[i])
+
+    return result  # return the list of numbers greater than average
+
+print(count_greater_than_average([1, 2, 3, 4, 5]))  # Output: [4, 5]
+
+# ✅ Type 1 – Mock Exam Question 2
+# 💻 Task: Count Digits in a String
+# 🧠 Type: 1️⃣ – Simple logic, loop-based
+# Goal: Given a string s, return how many characters are digits (0–9).
+
+# 📝 Example 1:
+# Input:  "abc123xyz"
+# Output: 3
+# 📝 Example 2:
+# Input:  "code@2025!"
+# Output: 4
+def count_digits(s):
+   count = 0
+   for char in s:
+      if 48 <= ord(char) <= 57: # we can say easier if '0' <= char <= '9':
+         count += 1
+   return count
+print(count_digits("abc123xyz"))  # Output: 3
+print(count_digits("code@2025!"))  # Output: 4
+
+# ✅ Type 1 – Mock Exam Question 3
+# 💻 Task: Count Lowercase Letters
+# 🧠 Type: 1️⃣ – Simple logic
+# Goal: Given a string s, return how many characters are lowercase letters (a to z only).
+
+# 📝 Example 1:
+# Input: "HelloWorld123"  
+# Output: 8  → lowercase: e, l, l, o, o, r, l, d
+# 📝 Example 2:
+# Input: "PYTHONrocks!"  
+# Output: 5  → lowercase: r, o, c, k, s
+
+def count_lowercase(s):
+   count = 0
+   for char in s:
+      if 'a' <= char <= 'z':
+         count += 1
+   return count
+print(count_lowercase("HelloWorld123"))  # Output: 8
+print(count_lowercase("PYTHONrocks!"))  # Output: 5
+
+#  Type 1 – Mock Exam Question 4
+# 💻 Task: Count Vowels in a String and Return the Vowel List
+# 🧠 Type: 1️⃣ – Simple logic
+# Goal: Given a string s, return:
+# The number of vowels in the string
+# A list of the vowels found (in order of appearance)
+
+# 📝 Example 1:
+# Input: "CodeSignal"
+# Output: (4, ['o', 'e', 'i', 'a'])
+# 📝 Example 2:
+# pyt
+# Input: "xyz"
+# Output: (0, [])
+def count_vowels(s):
+   wovels = ['o', 'e', 'i', 'a', 'I', 'A', 'E', ]
+   count =0
+   list=[]
+   for char in s:
+      if "a" <= char <= "z" or "A" <= char <= "Z":
+         if char in vowels:
+          count += 1
+          list.append(char)
+   return (count, list)
+print(count_vowels("CodeSignal"))
+
+
+# ✅ Type 1 – Mock Exam Question 5
+# 💻 Task: Count Capital Letters in a String
+# 🧠 Type: 1️⃣ – Simple logic
+# Goal: Return how many characters in the string are uppercase letters (A to Z only)
+
+# 📝 Example:
+# Input: "CodeSIGNAL2025!"
+# Output: 7  → ['C', 'S', 'I', 'G', 'N', 'A', 'L']
+def solution(s):
+  count = 0
+  capital_list = []
+  for char in s:
+    if "A" <= char <= "Z":
+      count += 1
+      capital_list.append(char)
+  return (count, capital_list )   
+print(solution('CodeSIGNAL2025!'))  
+
+# ✅ Type 1 – Mock Exam Question 6
+# 💻 Task: Count Even Numbers in a List
+# 🧠 Type: 1️⃣ – Simple logic
+# Goal: Return the number of even numbers in the list
+
+# 📝 Example:
+# Input: [1, 4, 7, 8, 10]
+# Output: 3   → (4, 8, 10)
+
+def solution(num):
+   count_even = 0
+   count_odd = 0
+   list_even=[]
+   list_odd=[]
+   for char in num:
+      if char % 2 == 0:
+         count_even += 1
+         list_even.append(char)
+      else:
+         count_odd += 1
+         list_odd.append(char)
+   return(count_even, count_odd, list_even, list_odd)    
+print(solution([1,2,3,4,5,6,7,8,9]) )     
+
+# ✅ Type 1 – Mock Exam Question 7
+# 💻 Task: Count Uppercase and Lowercase Letters in a String
+# 🧠 Type: 1️⃣ – Basic string loop
+# Goal: Return how many uppercase and lowercase letters are in the input string
+
+# 📝 Example:
+# Input: "HeLLoWorld123!"
+# Output: (5, 5)  # 5 uppercase, 5 lowercase
+def solution(s):
+   count_upper = 0
+   count_lower = 0
+   list_upper = []
+   list_lower = []
+   for char in s:
+      if "a" <= char <= "z":
+         count_lower += 1
+         list_lower.append(char)
+      elif "A" <= char <= "Z":
+         count_upper += 1
+         list_upper.append(char)
+   return(count_upper, count_lower, list_upper, list_lower) 
+print(solution("HeLLoWorld123!"))      
+
+# ✅ Type 1 – Mock Exam Question 8
+# 💻 Task: Count Characters by Category
+# 🧠 Type: 1️⃣ – Multi-condition logic
+# Goal: Return how many letters, digits, and special characters are in the string
+
+# 📝 Example:
+# Input: "Code@2025!"
+# Output: (4, 4, 2)
+# # 4 letters: C, o, d, e
+# # 4 digits: 2, 0, 2, 5
+# # 2 specials: @, !
+# You should:
+
+# Use only for loops
+# No built-ins like .isalpha(), .isdigit(), etc
+# Rely on ASCII ranges
+def solution(s):
+   count_digit = 0
+   count_letter = 0
+   count_special = 0
+   for char in s:
+      if 'a' <= char <= 'z' or 'A' <= char <= 'Z':
+         count_letter += 1
+      elif 48 <= ord(char) <= 57:
+         count_digit += 1
+      else:
+         count_special +=1
+   return(count_letter, count_digit, count_special)   
+print(solution("Code@2025!"))         
+
