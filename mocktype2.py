@@ -342,3 +342,36 @@ def longest_common_subsequence(s1, s2):
 
 # Example:
 print(longest_common_subsequence("abcde", "ace"))  # Output: 3 ("ace")
+
+#********************************
+# ✅ Task – Shift Letters by 2 Positions
+# Type: 2️⃣ – Medium String Manipulation (CodeSignal style)
+# Goal: Given a string, shift every letter 2 places forward in the alphabet.
+
+# Wrap around from 'z' to 'b' and 'Z' to 'B'.
+
+# Keep digits and symbols unchanged.
+
+# Example:
+# Input: "abcXYZz!"
+# → Output: "cdeZABb!"
+def shift_letters(s):
+    result = ""  # to store the final shifted string
+
+    for char in s:
+        if 'a' <= char <= 'z':  # if it's a lowercase letter
+            # shift by 2 and wrap using modulo 26
+            new_char = chr((ord(char) - ord('a') + 2) % 26 + ord('a'))
+            result += new_char
+        elif 'A' <= char <= 'Z':  # if it's an uppercase letter
+            new_char = chr((ord(char) - ord('A') + 2) % 26 + ord('A'))
+            result += new_char
+        else:
+            # keep digits and special characters unchanged
+            result += char
+
+    return result
+
+# 🔹 Test it
+print(shift_letters("abcXYZz!"))  # ✅ Output: "cdeZABb!"
+
