@@ -103,7 +103,7 @@ def binary_search(nums, target):
 
     return -1  # not found
 
-print(binary_search([1, 3, 5, 7, 9], 5))  # ✅ Output: 2
+print(binary_search([1, 3, 5, 7, 9], 9))  # ✅ Output: 3
 
 
 
@@ -133,6 +133,20 @@ print(quicksort([3, 6, 2, 8, 4, 1]))  # Output: [1, 2, 3, 4, 6, 8]
 
 # 🔷 Task 3 – Longest Substring Without Repeating Characters
 # Type: 2️⃣ – Sliding Window (String + Hashing)
+# You’re given a string, and you have to find the longest
+# part of the string where no characters are repeated.
+# A substring is a continuous sequence of characters.
+# You cannot skip characters.
+# You must return the length of the longest such substring.
+# 🔍 Example:
+# Input: "abcabcbb"
+# → Let's walk through substrings:
+
+# "abc" ✅ (no repeat, length 3)
+# "abca" ❌ (repeats 'a')
+# "bca" ✅ (still 3)
+# So the answer is:
+# 3 → because "abc" is the longest substring without repeating characters.
 
 # Goal: Find the length of the longest substring with all unique characters.
 def longest_unique_substring(s):
@@ -166,3 +180,165 @@ def longest_unique_substring(s):
 print(longest_unique_substring("abcabcbb"))  # Output: 3 ("abc")
 print(longest_unique_substring("bbbbb"))     # Output: 1 ("b")
 print(longest_unique_substring("pwwkew"))    # Output: 3 ("wke")
+
+#  Task: Shortest Path in an Unweighted Graph
+# Type: Type 2️⃣ – Sorting & Searching
+# Concept: Use Breadth-First Search (BFS) to find the shortest path from a start node
+# to all other nodes in an unweighted graph.
+# 🧠 What’s the task?
+# You're given a graph like this:
+
+# graph = {
+#   'A': ['B', 'C'],
+#   'B': ['A', 'D', 'E'],
+#   'C': ['A', 'F'],
+#   'D': ['B'],
+#   'E': ['B', 'F'],
+#   'F': ['C', 'E']
+# }
+
+def shortest_path_unweighted(graph, start):
+    # Step 1: Create a dictionary to store distances
+    distance = {}
+    for node in graph:
+        distance[node] = -1  # -1 means not visited
+
+    distance[start] = 0  # Distance to itself is 0
+
+    # Step 2: BFS Queue: we use a list to simulate a queue
+    queue = [start]  # Start BFS from the start node
+
+    for index in range(len(queue)):  # Simulate queue with for loop
+        current = queue[index]  # Current node being processed
+
+        for i in range(len(graph[current])):  # Loop through neighbors
+            neighbor = graph[current][i]
+            if distance[neighbor] == -1:  # If not visited
+                distance[neighbor] = distance[current] + 1
+                queue.append(neighbor)  # Add neighbor to queue
+
+    return distance  # Return distances to all nodes
+graph = {
+  'A': ['B', 'C'],
+  'B': ['A', 'D', 'E'],
+  'C': ['A', 'F'],
+  'D': ['B'],
+  'E': ['B', 'F'],
+  'F': ['C', 'E']
+}
+
+print(shortest_path_unweighted(graph, 'A'))
+# Expected:
+# {
+#   'A': 0,
+#   'B': 1,
+#   'C': 1,
+#   'D': 2,
+#   'E': 2,
+#   'F': 2
+# }
+#  Task 1: Number of Islands (DFS style using stack)
+# Type: 2️⃣ Graph / DFS
+# Goal: Count how many separate islands (groups of 1s) exist in a grid (matrix). 
+# An island is connected vertically or horizontally.
+
+def num_islands(grid):
+    rows = len(grid)           # Number of rows
+    cols = len(grid[0])        # Number of columns
+    count = 0                  # Total islands found
+    visited = []               # To track visited cells
+
+    # Create a visited grid of same size filled with False
+    for i in range(rows):
+        visited.append([False] * cols)
+
+    # Loop through each cell in the grid
+    for r in range(rows):
+        for c in range(cols):
+            # If we find a '1' and not visited
+            if grid[r][c] == '1' and not visited[r][c]:
+                count += 1           # Found a new island
+                stack = [[r, c]]     # Start DFS using a stack
+
+                for i in range(len(stack)):
+                    row, col = stack[i][0], stack[i][1]
+                    visited[row][col] = True
+
+                    # Check 4 directions
+                    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+                    for d in range(len(directions)):
+                        new_row = row + directions[d][0]
+                        new_col = col + directions[d][1]
+
+                        # Make sure new cell is inside grid and is '1' and not visited
+                        if (0 <= new_row < rows and 0 <= new_col < cols and
+                            grid[new_row][new_col] == '1' and not visited[new_row][new_col]):
+                            stack.append([new_row, new_col])  # Add to stack
+    return count
+
+# Example:
+grid = [
+    ["1","1","0","0"],
+    ["1","0","0","1"],
+    ["0","0","1","1"]
+]
+print(num_islands(grid))  # Output: 3
+
+# ✅ Task 2: Subset Sum Problem
+# Type: 2️⃣ Dynamic Programming
+# Goal: Return True if there exists a subset whose sum equals a target value.
+def subset_sum(arr, target):
+    n = len(arr)
+    dp = []
+
+    # Create DP table of size (n+1) x (target+1)
+    for i in range(n + 1):
+        row = []
+        for j in range(target + 1):
+            if j == 0:
+                row.append(True)  # Sum 0 is always possible
+            elif i == 0:
+                row.append(False)  # If array is empty and sum > 0, it's False
+            else:
+                row.append(False)
+        dp.append(row)
+
+    # Fill the DP table
+    for i in range(1, n + 1):  # Loop through items
+        for j in range(1, target + 1):  # Loop through all possible sums
+            if arr[i - 1] > j:
+                dp[i][j] = dp[i - 1][j]  # Don't include this number
+            else:
+                dp[i][j] = dp[i - 1][j] or dp[i - 1][j - arr[i - 1]]  # Include or exclude
+    return dp[n][target]
+
+# Example:
+print(subset_sum([3, 34, 4, 12, 5, 2], 9))  # Output: True (4+5)
+
+# ✅ Task 3: Longest Common Subsequence
+# Type: 2️⃣ Dynamic Programming
+# Goal: Find the longest subsequence (not necessarily continuous) that exists in both strings.
+def longest_common_subsequence(s1, s2):
+    m = len(s1)
+    n = len(s2)
+
+    # Create 2D DP table (m+1) x (n+1)
+    dp = []
+    for i in range(m + 1):
+        row = []
+        for j in range(n + 1):
+            row.append(0)
+        dp.append(row)
+
+    # Fill the table
+    for i in range(1, m + 1):  # Loop through s1
+        for j in range(1, n + 1):  # Loop through s2
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1  # Match found
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])  # No match
+
+    return dp[m][n]  # The last cell has the LCS length
+
+# Example:
+print(longest_common_subsequence("abcde", "ace"))  # Output: 3 ("ace")

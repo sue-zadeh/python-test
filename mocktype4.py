@@ -172,3 +172,70 @@ graph = {
 }
 
 print(dijkstra(graph, 'A'))  # ✅ Shortest distances from 'A'
+
+#  Task: Rotten Oranges – Spread of rot in a grid
+# Type: Type 4️⃣ – Simulation with matrix & multiple queues
+# Goal:
+# Given a 2D grid where:
+
+# 0 = empty cell
+
+# 1 = fresh orange
+
+# 2 = rotten orange
+
+# Each minute, a rotten orange turns all its adjacent (up/down/left/right) fresh oranges rotten.
+# Return the minimum number of minutes to rot all oranges. Return -1 if impossible.
+
+def oranges_rotting(grid):
+    rows = len(grid)           # Number of rows
+    cols = len(grid[0])        # Number of columns
+    fresh = 0                  # Counter for fresh oranges
+    rotten = []                # List of coordinates with rotten oranges
+
+    # Step 1: Count fresh oranges and store initial rotten positions
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 1:        # Fresh orange
+                fresh += 1
+            elif grid[i][j] == 2:      # Rotten orange
+                rotten.append((i, j))
+
+    # If no fresh oranges to begin with
+    if fresh == 0:
+        return 0
+
+    time = 0  # Minutes passed
+
+    # Directions: up, down, left, right
+    directions = [(-1,0), (1,0), (0,-1), (0,1)]
+
+    # Loop while we still have rotten oranges to process
+    for minute in range(10000):  # simulate max 10,000 minutes
+        new_rotten = []  # List to store newly rotted oranges this minute
+
+        for k in range(len(rotten)):
+            i, j = rotten[k]  # Get current rotten orange
+
+            for d in range(len(directions)):
+                di, dj = directions[d]   # Direction to check
+                ni = i + di              # New row index
+                nj = j + dj              # New col index
+
+                # Check if inside grid and fresh
+                if 0 <= ni < rows and 0 <= nj < cols and grid[ni][nj] == 1:
+                    grid[ni][nj] = 2     # Make it rotten
+                    fresh -= 1           # Reduce fresh count
+                    new_rotten.append((ni, nj))  # Add to next round
+
+        if len(new_rotten) == 0:
+            break  # No more rot to spread
+
+        rotten = new_rotten  # Prepare for next minute
+        time += 1            # Increment time
+
+    # After loop, check if any fresh orange remains
+    if fresh == 0:
+        return time
+    else:
+        return -1
