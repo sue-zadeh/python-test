@@ -1,4 +1,4 @@
-# Best structure for camelCase splitter:
+# Best structure for  Case splitter:
 # ✅ Version using ord() — your style — with full comments:
 def can_split_camel_case(words, camelCase):
     result = []  # to store split words
@@ -315,7 +315,7 @@ def subset_sum(arr, target):
 # Example:
 print(subset_sum([3, 34, 4, 12, 5, 2], 9))  # Output: True (4+5)
 
-# ✅ Task 3: Longest Common Subsequence
+# ✅ Task 3: Longest Common Subse quence
 # Type: 2️⃣ Dynamic Programming
 # Goal: Find the longest subsequence (not necessarily continuous) that exists in both strings.
 def longest_common_subsequence(s1, s2):

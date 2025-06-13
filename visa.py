@@ -741,34 +741,44 @@ import re
 words = ["name", "rule", "is", "date"]
 complex = "myNameInDateIs"
 
-# Step 1: Split the camelCase word
-split_words = re.findall(r'[A-Z]?[a-z]+', complex)
+def split_camel_case_with_index(s):
+    result = []     # Final list of words
+    word = ""       # Temporary string to build each word
 
-# Step 2: Convert to lowercase for comparison
-split_words = [w.lower() for w in split_words]
+    for i in range(len(s)):       # Loop using index
+        char = s[i]               # Get character at current index
 
-# Step 3: Check each word against your list
-for w in split_words:
-    if w in words:
-        print(f" Found: {w}")
-    else:
-        print(f" Not found: {w}")
+        if 65 <= ord(char) <= 90:  # If uppercase (A-Z)
+            if word != "":         # If we’ve been building a word
+                result.append(word)  # Save it to result
+            word = chr(ord(char) + 32)  # Start new word with lowercase letter
+        else:
+            word += char           # Add char to current word
+
+    if word != "":                 # Add the last word at the end
+        result.append(word)
+
+    return result
+
+print(split_camel_case_with_index("myVariableNameInCamel"))
+# → ["my", "variable", "name", "in", "camel"]
+
 # ========================
-import re
+# import re
 
-def check_words_in_camel(words, complex_word):
-    # Split the camelCase word into individual words
-    parts = re.findall(r'[A-Z]?[a-z]+', complex_word)
+# def check_words_in_camel(words, complex_word):
+#     # Split the camelCase word into individual words
+#     parts = re.findall(r'[A-Z]?[a-z]+', complex_word)
     
-    # Convert each part to lowercase and check if it exists in words list
-    for part in parts:
-        if part.lower() not in words:
-            return False
-    return True
-words = ["name", "rule", "is", "date"]
-complex_word = "myNameIsDate"
+#     # Convert each part to lowercase and check if it exists in words list
+#     for part in parts:
+#         if part.lower() not in words:
+#             return False
+#     return True
+# words = ["name", "rule", "is", "date"]
+# complex_word = "myNameIsDate"
 
-print(check_words_in_camel(words, complex_word))  # Output: False (because 'my' is not in the list)
+# print(check_words_in_camel(words, complex_word))  # Output: False (because 'my' is not in the list)
 # ========================
 # Write a function that:
 # Accepts two arguments:
@@ -797,40 +807,61 @@ for w in lowercase:
 # b[i] = a[i] + a[i-1] if a[i] is odd
 
 # For the first element, if i = 0, and it’s odd → just keep a[i] (because there is no a[i-1])
+  
 a = [2, 5, 4, 7, 8]
 b = []
-for i in range (len(a)):
+def solution(a):
+  for i in range (len(a)):
     if  a[i] % 2!=0 :
         if a[i] + a[i-1]:
            b.append(a[i] + a[i-1])
     else:
         b.append(a[i] )
-print(b)
+  return b
 # =========================
-def solution(a):
-    b=[]
-    for i in range(len(a)):
-        if a[i] % 2 == 0:
-            b.append[a[i]]
-        else:
-           if a[i] % 2 != 0:
-            b.append(a[i] + a[i-1]) 
-    return b
-print(solution([2, 5, 4, 7, 8], []))  # Output: [2, 7, 4, 11, 8]
+
+print(solution([2, 5, 4, 7, 8]))  # Output: [2, 7, 4, 11, 8]
 
 # Task:
 # Write a Python function that takes a sentence (string) and returns the longest word in that sentence.
 # If there are two or more words with the same length, return the first one that appears.
 
-input=  "I love programming in Python"
-def longword (input):
-  words = input.split()
-  longest = []
-  for word in words:
-        if len(word) > len(longest):
-            longest = word
-  return(longest)
-print(longword (input) ) 
+# Function to find the longest word in a sentence without using split or len
+def longest_word(sentence):
+    words = []           # list to hold words
+    word = ""            # current word
+
+    # Step 1: Break the sentence into words manually (simulate split)
+    for char in sentence:
+        if char != " ":
+            word += char     # build current word
+        else:
+            words.append(word)  # add completed word
+            word = ""           # reset for next word
+    if word != "":
+        words.append(word)  # add last word (after the loop ends)
+
+    # Step 2: Find longest word manually
+    longest = ""           # to store the longest word
+    max_len = 0            # store its length
+
+    for i in range(len(words)):
+        # Count characters manually (simulate len)
+        count = 0
+        for letter in words[i]:
+            count += 1
+
+        # If this word is longer than current longest
+        if count > max_len:
+            longest = words[i]
+            max_len = count
+
+    return longest
+
+# Test
+sentence = "I love programming in Python"
+print(longest_word(sentence))  # ✅ Output: programming
+
 # ====================
 # Write a Python function that:
 
@@ -847,6 +878,7 @@ def remove_consecutive_duplicates(num):
     return newlist
 print(remove_consecutive_duplicates(num)) 
 # =====================
+ 
 # to remove all duplicated numbers:
 
 def remove_all_duplicates(lst):
@@ -859,43 +891,32 @@ def remove_all_duplicates(lst):
 # Test
 num = [1, 2, 2, 3, 2, 5, 4, 4, 5]
 print(remove_all_duplicates(num))  # Output: [1, 2, 3, 5, 4]
+def remove_all_duplicates(nums):
+    result = []  # list to store unique numbers
+    for num in nums:
+        if num not in result:  # only add if it's not already there
+            result.append(num)
+    return result
+
+# Test
+num = [1, 2, 2, 3, 2, 5, 4, 4, 5]
+print(remove_all_duplicates(num))  # ✅ Output: [1, 2, 3, 5, 4]
+
 # ==========================
 # merging two strings
-from collections import Counter
+def merge_strings(s1, s2):
+    result = ""  # final merged string
+    length = max(len(s1), len(s2))  # get the longer length
+    for i in range(length):
+        if i < len(s1):
+            result += s1[i]  # take from s1 if available
+        if i < len(s2):
+            result += s2[i]  # take from s2 if available
+    return result
 
-a = "aabjtt"
-b = "bcjw"
+# Test
+print(merge_strings("abc", "12345"))  # Output: a1b2c345
 
-count_a = Counter(a)
-count_b = Counter(b)
-
-i, j = 0, 0
-merged = ""
-
-while i < len(a) and j < len(b):
-    char_a = a[i]
-    char_b = b[j]
-    
-    freq_a = count_a[char_a]
-    freq_b = count_b[char_b]
-
-    if freq_a < freq_b:
-        merged += char_a
-        i += 1
-    elif freq_b < freq_a:
-        merged += char_b
-        j += 1
-    else:
-        if char_a < char_b:
-            merged += char_a
-            i += 1
-        elif char_b < char_a:
-            merged += char_b
-            j += 1
-        else:
-            # Same char, pick from a
-            merged += char_a
-            i += 1
 
 # Add leftovers
 merged += a[i:]

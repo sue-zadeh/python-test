@@ -239,3 +239,258 @@ def oranges_rotting(grid):
         return time
     else:
         return -1
+# 11.	Sudoku Solver – Solve a partially filled Sudoku grid.
+
+def is_valid(board, row, col, num):
+    # Check row
+    for i in range(9):
+        if board[row][i] == num:
+            return False
+
+    # Check column
+    for i in range(9):
+        if board[i][col] == num:
+            return False
+
+    # Check 3x3 box
+    start_row = row - row % 3
+    start_col = col - col % 3
+    for i in range(3):
+        for j in range(3):
+            if board[start_row + i][start_col + j] == num:
+                return False
+
+    return True
+
+def solve_sudoku(board):
+    for row in range(9):
+        for col in range(9):
+            # Find empty cell
+            if board[row][col] == 0:
+                # Try digits 1 to 9
+                for num in range(1, 10):
+                    if is_valid(board, row, col, num):
+                        board[row][col] = num
+                        
+                        # Recursive call using manual for-loop style
+                        solved = solve_sudoku(board)
+                        if solved:
+                            return True
+
+                        # Undo if it didn't work
+                        board[row][col] = 0
+
+                # No number fits, so return False
+                return False
+
+    # All cells are filled
+    return True
+
+# Example board (0 means empty cell)
+sudoku_board = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+]
+
+solve_sudoku(sudoku_board)
+
+# Print solved board
+for row in sudoku_board:
+    print(row)
+
+# ✅ Task – Count Matching Pairs
+# Type: 4️⃣ – Logic / Counting / Hashmap style (no built-ins)
+# Difficulty: Medium to Hard (CodeSignal real exam style)
+# 🧩 Description:
+# You are given an array of integers.
+# Your task is to return the number of pairs (i, j) such that:
+# i < j
+# numbers[i] == numbers[j]
+
+# Do not use built-in methods like count(), set(), dict(), or collections.
+# You must use for loops only and basic lists.
+
+# 🔢 Input:
+# A list of integers numbers (length ≤ 1000, values: 0 ≤ number ≤ 1000)
+def solution(nums):
+    # result =[]
+    count = 0
+    # count_min = 0
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+           if nums[i] == nums[j]:
+             count += 1
+    return (count)   
+print(solution([1, 2, 1, 2, 1]))  
+
+
+# ✅ Task – Unique Sum to Zero
+# Type: 4️⃣ – Math + Logic
+# Difficulty: Easy-Medium
+# No built-in methods (like set() or sum()) allowed. Use only for loops and basic operations.
+# 🧩 Description:
+# You are given an integer n.
+# Return an array of n unique integers such that their sum is 0.
+# 📥 Input:
+# An integer n (1 ≤ n ≤ 1000)
+# 📤 Output:
+# A list of n integers, all unique, and their sum must equal 0.
+# ⚠️ Constraints:
+# You can only use for loops and math.
+# Don’t use built-in Python functions like sum(), set() or list comprehensions.
+# 🧠 Hint:
+# Use pairs like [-1, 1], [-2, 2], etc.
+# If n is odd, include a 0 too.
+# 📘 Example 1:
+# n = 4
+# Output: [-2, -1, 1, 2]  # or any variation with unique numbers summing to 0
+# 📘 Example 2:
+# n = 5
+# Output: [-2, -1, 0, 1, 2]
+def solution(n):
+    result = []
+
+    # Add pairs like [-1, 1], [-2, 2], ...
+    for i in range(1, n // 2 + 1):
+        result.append(-i)
+        result.append(i)
+
+    # If n is odd, also add 0
+    if n % 2 != 0:
+        result.append(0)
+
+    return result
+print(solution(5))  # Output: [-1, 1, -2, 2, 0]
+print(solution(4))  # Output: [-1, 1, -2, 2]
+
+#    Given an integer n, return a square frame (as a list of strings)
+# of size n made of * characters around the border and spaces inside.
+
+def solution(n):
+    result = []  # Create an empty list to store each line
+
+    for i in range(n):  # Outer loop for each row
+        line = ""  # Start with an empty string for the current row
+
+        for j in range(n):  # Inner loop for each column
+            if i == 0 or i == n - 1:  # First or last row
+                line = line + "*"
+            elif j == 0 or j == n - 1:  # First or last column
+                line = line + "*"
+            else:  # Middle of the frame
+                line = line + " "
+
+        result.append(line)  # Add the full line to the result
+
+    return result  # Return the list of lines
+
+               
+ #  Output for n = 7:
+#  *******
+# *     *
+# *     *
+# *     *
+# *     *
+# *     *
+# *******
+
+output = solution(6)
+for row in output:
+    print(row)
+
+# Add every i-th digit from the end of both strings.
+# If one string is shorter, use the digit from the longer string.
+# Return the string of those sums (each sum becomes a number in the result).
+
+# 💡 Logic Summary:
+# Converts string to digit array without int() or list()
+
+# Adds digits from the right side (like a manual column sum)
+
+# Handles different lengths
+
+# Reverses final string without [::-1]
+
+def solution(a, b):
+    # Convert input strings to digit arrays manually
+    a_digits = []
+    for i in range(0, len(a)):
+        a_digits = a_digits + [ord(a[i]) - ord('0')]  # convert char to digit
+
+    b_digits = []
+    for i in range(0, len(b)):
+        b_digits = b_digits + [ord(b[i]) - ord('0')]
+
+    # Find the maximum length of the result
+    max_len = len(a_digits)
+    if len(b_digits) > max_len:
+        max_len = len(b_digits)
+
+    result = ""  # Final result string
+
+    # Loop from the end to the beginning
+    for i in range(1, max_len + 1):
+        sum_digit = 0
+
+        # Add from a if available
+        if len(a_digits) - i >= 0:
+            sum_digit = sum_digit + a_digits[len(a_digits) - i]
+
+        # Add from b if available
+        if len(b_digits) - i >= 0:
+            sum_digit = sum_digit + b_digits[len(b_digits) - i]
+
+        # Convert sum_digit to characters (2 digits handled) and add to result
+        if sum_digit >= 10:
+            d1 = sum_digit // 10
+            d2 = sum_digit % 10
+            result = result + chr(ord('0') + d1)
+            result = result + chr(ord('0') + d2)
+        else:
+            result = result + chr(ord('0') + sum_digit)
+
+    # Reverse the result manually
+    final_result = ""
+    for i in range(len(result) - 1, -1, -1):
+        final_result = final_result + result[i]
+
+    return final_result
+
+print(solution("99", "99"))     # Expected: "1818"
+print(solution("11", "9"))      # Expected: "110"
+print(solution("123", "5"))     # Expected: "128"
+print(solution("1000", "1000")) # Expected: "20000"
+
+
+#Examples:
+# ord("0")       → 48
+# ord("1")       → 49
+# ord("9")       → 57
+# chr(48 + 3)    → "3"
+# chr(48 + 10)   → ":" ❌ (not a digit)
+
+
+#  Problem Summary:
+# You are given:
+
+# A memory array of 0s and 1s
+
+# 0 = free memory
+
+# 1 = used memory
+
+# You also receive a list of queries:
+
+# Each query is one of two types:
+
+# alloc x: allocate x consecutive 0s starting at a start index divisible by 8
+
+# erase id: remove a previously allocated block with a given ID and turn them back to 0
+
