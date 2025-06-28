@@ -107,27 +107,23 @@ for row in output:
 # Time limit: 4 seconds
 
 def solution(a, b):
-    # Step 1: Convert string a into a list of digits
-    a_digits = []  
-    for i in range(len(a)):    
-    #in a ord("0") is 48, so this subtracts 48 to convert character to digit
-        a_digits = a_digits + ord(a[i]) - ord("0")   # add digit to list
 
-    # Step 2: Convert string b into a list of digits
-    b_digits = [] 
-    for i in range(len(b)):  
-        b_digits = b_digits + ord(b[i]) - ord("0")  # add digit to list
+    a_digits = []
+    for i in range(len(a)):
+        a_digits = a_digits + [ord(a[i]) - ord("0")]
 
-    # Step 3: Get the longer length between the two digit lists
+    b_digits = []
+    for i in range(len(b)):
+        b_digits = b_digits + [ord(b[i]) - ord("0")]
+
     if len(a_digits) > len(b_digits):
         max_len = len(a_digits)
     else:
         max_len = len(b_digits)
-    # Step 4: Initialize result string to store the final answer (in reverse order)
-    result = []
 
-    # Loop from the end (right to left) of both lists
-    for i in range(1, max_len + 1):  # loop i = 1 to max_len
+    result = ""
+
+    for i in range(1, max_len + 1):
         digita = 0
         digitb = 0
 
@@ -140,16 +136,17 @@ def solution(a, b):
         total = digita + digitb
 
         if total >= 10:
-            result = result + [chr(ord("0") + (total // 10))]
-            result = result + [chr(ord("0") + (total % 10))]
+            result = result + chr(ord("0") + (total // 10))
+            result = result + chr(ord("0") + (total % 10))
         else:
-            result = result + [chr(ord("0") + total)]
-       # Step 5: Reverse the result
+            result = result + chr(ord("0") + total)
+
     final = ""
     for i in range(len(result) - 1, -1, -1):
         final = final + result[i]
 
     return final
+
 
 
 print(solution("99", "99"))     # Expected: "1818"
@@ -159,9 +156,72 @@ print(solution("5", "99999"))   # Expected: "99994"
 print(solution("1111", "1111")) # Expected: "2222"
 
 
+def solution(a, b):
+    a_digits = []
+    for i in range(len(a)):
+      a_digits = a_digits + [ord(a[i]) - ord("0")]
 
+    b_digits = []
+    for i in range(len(b)):
+       b_digits = b_digits + [ord(b[i]) - ord("0")]
+
+    if len(a_digits) > len(b_digits):
+           max_len =len(a_digits)
+    else:
+           max_len =len(b_digits)
+    result = ''       
+    for i in range(1, max_len + 1):
+        
+        digita = 0
+        digitb = 0
+
+        if len(a_digits) - i >= 0:
+        
+           digita = a_digits[len(a_digits) - i]
+        if len(b_digits) - i >= 0:
+
+           digitb = b_digits[len(b_digits) -i]
+
+        total = digita + digitb  
+
+        if total >= 10:
+        
+           result = result + chr(ord("0") + (total // 10))
+           result = result + chr(ord("0") + (total % 10))
+    final ="" 
+
+    for i in range(len(result) -1, -1, -1):
+        final = final + result[i]
+    return final  
 
   
+print(solution("99", "99"))     # Expected: "1818"
+print(solution("11", "9"))      # Expected: "110"
+
+
+def solution(n):
+    result = []
+    for i in range(n):
+        line = ''
+        for j in range(n):
+            if i == 0 or i == n -1:
+                line = line + "*"
+            elif j == 0 or j == n -1:   
+                line = line + "*"
+            else:
+                line = line + " "
+        result.append(line)
+    return result
+
+# Test 2
+print("----")
+output = solution(6)
+for row in output:
+    print(row)
+# Test 1
+output = solution(5)
+for row in output:
+    print(row)
 
 
 
@@ -169,33 +229,150 @@ print(solution("1111", "1111")) # Expected: "2222"
 
 # ✅ Task 3: Memory Manager with Allocation & Erase
 # 📄 Description:
-# You are given an array of integers memory consisting of 0s and 1s:
+# You are given an array of integers memory 
+# consisting of 0s and 1s:
 # memory[i] = 0 → the i-th memory unit is free
 # memory[i] = 1 → the i-th memory unit is occupied
-# The memory is aligned with segments of 8 units — so all allocated memory blocks
-#  must start at an index divisible by 8 (e.g. 0, 8, 16…).
+# The memory is aligned with segments 
+# of 8 units — so all allocated memory blocks
+#  must start at an index divisible 
+# by 8 (e.g. 0, 8, 16…).
 # 💡 Your task is to perform 2 types of queries:
 # 🔹 alloc x:
-# Find the leftmost aligned block (start index divisible by 8) with x consecutive
+# Find the leftmost aligned block (start index
+#  divisible by 8) with x consecutive
 #  free units
 # Replace them with the same allocation ID
-# This ID starts at 1 and increases with each successful allocation
+# This ID starts at 1 and increases with each 
+#  successful allocation
 # If no suitable block is found, return -1
-# Otherwise, return the start index of the allocated block
+# Otherwise, return the start index
+#  of the allocated block
 
 # 🔹 erase ID:
-# If a block exists with valsum_digit = 0  # this will hold the sum of current digitsue = ID, erase it (replace all its values with 0)
-# Return the number of cells erased
-# If no such block exists or it’s already deleted, return -1
+# If a block exists with valsum_digit = 0 
+#  # this will hold the sum of current
+#  digitsue = ID, erase it (replace all 
+# its values with 0) Return the number of
+#  cells erased if no such block exists or
+#  it’s already deleted, return -1
 
 # 🧾 Notes:
-# The ID is automatically generated using an atomic counter (starts at 1)
-# x can be bigger than 8, so the block may span more than one segment
+# The ID is automatically generated using an atomic
+#  counter (starts at 1) x can be bigger than 8,
+#  so the block may span more than one segment 
 # 🔢 Input Format:
 # queries is an array of [2]-element arrays
-# If queries[i][0] == 0, it's an alloc query and queries[i][1] is x
-# If queries[i][0] == 1, it's an erase query and queries[i][1] is ID
+# If queries[i][0] == 0, it's an alloc query and
+#  queries[i][1] is x
+# If queries[i][0] == 1, it's an erase query and
+#  queries[i][1] is ID
 
 
 
+memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+queries = [
+    [1, 3],  # alloc 3 → باید از index 0 شروع کنه
+    [1, 4],  # alloc 4 → باید از index 8 شروع کنه
+    [2, 1],  # erase ID = 1 → پاک کن ID=1
+    [1, 2],  # alloc 2 → حالا جای ID=1 آزاد شده
+    [2, 3],  # erase ID = 3 → اصلاً وجود نداره، باید -1 بده
+]
+
+output = solution(memory, queries)
+print(output)
+                
+
+def solution(memory, queries):
+
+    result = []
+
+    alloc_id = 1
+
+    for query in queries:
+
+        if query[0] == 0:
+
+            alloc_len = query[1]
+
+            alloc_index = -1
+
+            for i in range(0, len(memory), 8):
+
+                enough_space = True
+
+                for j in range(alloc_len):
+
+                    if i + j >= len(memory):
+                        enough_space = False
+
+                    elif memory[i + j] != 0:
+                        enough_space = False
+
+                if enough_space == True and alloc_index == -1:
+
+                    alloc_index = i
+
+                    for k in range(alloc_len):
+                        memory[i + k] = alloc_id
+
+                    result = result + [alloc_index]
+
+                    alloc_id = alloc_id + 1
+
+            if alloc_index == -1:
+                result = result + [-1]
+
+        else:
+
+            erase_id = query[1]
+
+            erased = 0
+
+            for i in range(len(memory)):
+
+                if memory[i] == erase_id:
+                    memory[i] = 0
+                    erased = erased + 1
+
+            if erased == 0:
+                result = result + [-1]
+            else:
+                result = result + [erased]
+
+    return result
+
+memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+queries = [
+    [1, 3],  # alloc 3 → باید از index 0 شروع کنه
+    [1, 4],  # alloc 4 → باید از index 8 شروع کنه
+    [2, 1],  # erase ID = 1 → پاک کن ID=1
+    [1, 2],  # alloc 2 → حالا جای ID=1 آزاد شده
+    [2, 3],  # erase ID = 3 → اصلاً وجود نداره، باید -1 بده
+]
+
+output = solution(memory, queries)
+print(output)
+def solution(n):
+      result = []
+      for i in range(n):
+        line = ""
+        for j in range(n):
+          if i == 0 or i == n -1:
+              line = line + "*" 
+          elif j == 0 or j == n-1:
+              line = line +"*" 
+          else:
+              line = line + " "   
+        result.append(line)          
+      return result  
+# Test 1
+output = solution(3)
+for row in output:
+    print(row)
+ #========         
+
+#  exxercise Task2:
+ 
