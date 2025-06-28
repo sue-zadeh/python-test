@@ -107,123 +107,39 @@ for row in output:
 # Time limit: 4 seconds
 
 def solution(a, b):
-
-    a_digits = []
-    for i in range(len(a)):
-        a_digits = a_digits + [ord(a[i]) - ord("0")]
-
-    b_digits = []
-    for i in range(len(b)):
-        b_digits = b_digits + [ord(b[i]) - ord("0")]
-
-    if len(a_digits) > len(b_digits):
-        max_len = len(a_digits)
-    else:
-        max_len = len(b_digits)
-
-    result = ""
-
-    for i in range(1, max_len + 1):
-        digita = 0
-        digitb = 0
-
-        if len(a_digits) - i >= 0:
-            digita = a_digits[len(a_digits) - i]
-
-        if len(b_digits) - i >= 0:
-            digitb = b_digits[len(b_digits) - i]
-
-        total = digita + digitb
-
-        if total >= 10:
-            result = result + chr(ord("0") + (total // 10))
-            result = result + chr(ord("0") + (total % 10))
-        else:
-            result = result + chr(ord("0") + total)
-
-    final = ""
-    for i in range(len(result) - 1, -1, -1):
+    
+      a_digits =[]
+      for i in range (len (a)):
+          a_digits = a_digits +[ord(a[i]) - ord('0')]
+      b_digits = []    
+      for i in range(len(b)):
+          b_digits = b_digits + [ord(b[i]) - ord('0')]
+      if len(a_digits) > len(b_digits):
+          max_len = len(a_digits)  
+      else:
+          max_len = len(b_digits)         
+      result =""
+      for i in range(1, max_len + 1):
+          digita = 0
+          digitb = 0
+          if len(a_digits) - i>= 0:
+              digita = a_digits[len(a_digits)- i]
+          if len(b_digits) -i >= 0: 
+            digitb = b_digits[len(b_digits)- i]
+          total = digita + digitb
+          if total >= 10:
+              result = result + chr(ord('0') + (total % 10))
+              result = result +chr(ord('0') + (total // 10))
+          else:
+              result = result + chr(ord('0') + total)
+      final = ''
+      for i in range(len(result)-1, -1, -1):
         final = final + result[i]
-
-    return final
-
-
-
-print(solution("99", "99"))     # Expected: "1818"
-print(solution("11", "9"))      # Expected: "110"
-print(solution("123", "5"))     # Expected: "128"
-print(solution("5", "99999"))   # Expected: "99994"
-print(solution("1111", "1111")) # Expected: "2222"
-
-
-def solution(a, b):
-    a_digits = []
-    for i in range(len(a)):
-      a_digits = a_digits + [ord(a[i]) - ord("0")]
-
-    b_digits = []
-    for i in range(len(b)):
-       b_digits = b_digits + [ord(b[i]) - ord("0")]
-
-    if len(a_digits) > len(b_digits):
-           max_len =len(a_digits)
-    else:
-           max_len =len(b_digits)
-    result = ''       
-    for i in range(1, max_len + 1):
-        
-        digita = 0
-        digitb = 0
-
-        if len(a_digits) - i >= 0:
-        
-           digita = a_digits[len(a_digits) - i]
-        if len(b_digits) - i >= 0:
-
-           digitb = b_digits[len(b_digits) -i]
-
-        total = digita + digitb  
-
-        if total >= 10:
-        
-           result = result + chr(ord("0") + (total // 10))
-           result = result + chr(ord("0") + (total % 10))
-    final ="" 
-
-    for i in range(len(result) -1, -1, -1):
-        final = final + result[i]
-    return final  
+      return final 
 
   
 print(solution("99", "99"))     # Expected: "1818"
 print(solution("11", "9"))      # Expected: "110"
-
-
-def solution(n):
-    result = []
-    for i in range(n):
-        line = ''
-        for j in range(n):
-            if i == 0 or i == n -1:
-                line = line + "*"
-            elif j == 0 or j == n -1:   
-                line = line + "*"
-            else:
-                line = line + " "
-        result.append(line)
-    return result
-
-# Test 2
-print("----")
-output = solution(6)
-for row in output:
-    print(row)
-# Test 1
-output = solution(5)
-for row in output:
-    print(row)
-
-
 
 
 
@@ -270,18 +186,18 @@ for row in output:
 
 
 
-memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+# memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-queries = [
-    [1, 3],  # alloc 3 → باید از index 0 شروع کنه
-    [1, 4],  # alloc 4 → باید از index 8 شروع کنه
-    [2, 1],  # erase ID = 1 → پاک کن ID=1
-    [1, 2],  # alloc 2 → حالا جای ID=1 آزاد شده
-    [2, 3],  # erase ID = 3 → اصلاً وجود نداره، باید -1 بده
-]
+# queries = [
+#     [1, 3],  # alloc 3 → باید از index 0 شروع کنه
+#     [1, 4],  # alloc 4 → باید از index 8 شروع کنه
+#     [2, 1],  # erase ID = 1 → پاک کن ID=1
+#     [1, 2],  # alloc 2 → حالا جای ID=1 آزاد شده
+#     [2, 3],  # erase ID = 3 → اصلاً وجود نداره، باید -1 بده
+# ]
 
-output = solution(memory, queries)
-print(output)
+# output = solution(memory, queries)
+# print(output)
                 
 
 def solution(memory, queries):
@@ -352,6 +268,9 @@ queries = [
     [1, 2],  # alloc 2 → حالا جای ID=1 آزاد شده
     [2, 3],  # erase ID = 3 → اصلاً وجود نداره، باید -1 بده
 ]
+# =======================================
+
+               # Practice
 
 output = solution(memory, queries)
 print(output)
@@ -375,4 +294,41 @@ for row in output:
  #========         
 
 #  exxercise Task2:
- 
+def solution(a, b):
+    
+      a_digits =[]
+      for i in range (len (a)):
+          a_digits = a_digits +[ord(a[i]) - ord('0')]
+      b_digits = []    
+      for i in range(len(b)):
+          b_digits = b_digits + [ord(b[i]) - ord('0')]
+      if len(a_digits) > len(b_digits):
+          max_len = len(a_digits)  
+      else:
+          max_len = len(b_digits)         
+      result =""
+      for i in range(1, max_len + 1):
+          digita = 0
+          digitb = 0
+          if len(a_digits) - i>= 0:
+              digita = a_digits[len(a_digits)- i]
+          if len(b_digits) -i >= 0: 
+            digitb = b_digits[len(b_digits)- i]
+          total = digita + digitb
+          if total >= 10:
+              result = result + chr(ord('0') + (total % 10))
+              result = result +chr(ord('0') + (total // 10))
+          else:
+              result = result + chr(ord('0') + total)
+      final = ''
+      for i in range(len(result)-1, -1, -1):
+        final = final + result[i]
+      return final               
+
+
+    
+
+
+
+print(solution("99", "99"))     # Expected: "1818"
+print(solution("11", "9"))      # Expected: "110"
