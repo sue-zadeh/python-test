@@ -107,7 +107,6 @@ for row in output:
 # Time limit: 4 seconds
 
 def solution(a, b):
-    
       a_digits =[]
       for i in range (len (a)):
           a_digits = a_digits +[ord(a[i]) - ord('0')]
@@ -137,7 +136,7 @@ def solution(a, b):
         final = final + result[i]
       return final 
 
-  
+ 
 print(solution("99", "99"))     # Expected: "1818"
 print(solution("11", "9"))      # Expected: "110"
 
@@ -201,65 +200,72 @@ print(solution("11", "9"))      # Expected: "110"
                 
 
 def solution(memory, queries):
-
+    
     result = []
+    id = 1
 
-    alloc_id = 1
-
-    for query in queries:
-
-        if query[0] == 0:
-
-            alloc_len = query[1]
-
-            alloc_index = -1
+    for q in queries:
+        
+        if q[0] == 0:
+            size = q[1]
+            found = -1
 
             for i in range(0, len(memory), 8):
 
-                enough_space = True
+                ok = 1
 
-                for j in range(alloc_len):
+                for j in range(size):
 
                     if i + j >= len(memory):
-                        enough_space = False
+
+                        ok = 0
 
                     elif memory[i + j] != 0:
-                        enough_space = False
 
-                if enough_space == True and alloc_index == -1:
+                        ok = 0
 
-                    alloc_index = i
+                if ok == 1 and found == -1:
 
-                    for k in range(alloc_len):
-                        memory[i + k] = alloc_id
+                    for j in range(size):
 
-                    result = result + [alloc_index]
+                        memory[i + j] = id
 
-                    alloc_id = alloc_id + 1
+                    result = result + [i]
 
-            if alloc_index == -1:
+                    id = id + 1
+
+                    found = 1
+
+            if found == -1:
+
                 result = result + [-1]
 
         else:
 
-            erase_id = query[1]
+            target = q[1]
 
-            erased = 0
+            count = 0
 
             for i in range(len(memory)):
 
-                if memory[i] == erase_id:
-                    memory[i] = 0
-                    erased = erased + 1
+                if memory[i] == target:
 
-            if erased == 0:
+                    memory[i] = 0
+
+                    count = count + 1
+
+            if count == 0:
+
                 result = result + [-1]
+
             else:
-                result = result + [erased]
+
+                result = result + [count]
 
     return result
 
-memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+memory = [0, 0, 0, 0, 0, 0, 0, 8, 8, 0, 0, 0]
 
 queries = [
     [1, 3],  # alloc 3 → باید از index 0 شروع کنه
@@ -294,41 +300,196 @@ for row in output:
  #========         
 
 #  exxercise Task2:
-def solution(a, b):
     
-      a_digits =[]
-      for i in range (len (a)):
-          a_digits = a_digits +[ord(a[i]) - ord('0')]
-      b_digits = []    
-      for i in range(len(b)):
-          b_digits = b_digits + [ord(b[i]) - ord('0')]
-      if len(a_digits) > len(b_digits):
-          max_len = len(a_digits)  
-      else:
-          max_len = len(b_digits)         
-      result =""
-      for i in range(1, max_len + 1):
-          digita = 0
-          digitb = 0
-          if len(a_digits) - i>= 0:
-              digita = a_digits[len(a_digits)- i]
-          if len(b_digits) -i >= 0: 
-            digitb = b_digits[len(b_digits)- i]
-          total = digita + digitb
-          if total >= 10:
+def solution (a, b):
+    a_digits =[]
+    for i in range (len(a)):
+        a_digits = a_digits + [ord(a[i]) - ord('0')]
+    b_digits =[]
+    for i in range(len(b)):
+        b_digits = b_digits + [ord(b[i]) - ord('0')]
+    if len(a_digits) > len(b_digits):
+        max_len = len(a_digits)
+    else:
+        max_len = len(b_digits)
+    result = ""    
+    for i in range(1, max_len + 1):
+        digita = 0
+        digitb = 0
+        if len(a_digits) - i >= 0:
+            digita = a_digits[len(a_digits) - i]    
+        if len(b_digits) - i >= 0:
+            digitb = b_digits[len(b_digits) - i]  
+        total = digita + digitb
+        if total >= 10:
               result = result + chr(ord('0') + (total % 10))
               result = result +chr(ord('0') + (total // 10))
-          else:
+        else:
               result = result + chr(ord('0') + total)
-      final = ''
-      for i in range(len(result)-1, -1, -1):
+    final = ''
+    for i in range(len(result)-1, -1, -1):
         final = final + result[i]
-      return final               
+    return final 
+          
+                
+print(solution("99", "99"))     # Expected: "1818"
+print(solution("11", "9"))      # Expected: "110"
 
 
-    
+def solution(memory, queries):
+
+    result = []
+
+    id = 1
+
+    for q in queries:
+
+        if q[0] == 0:
+
+            size = q[1]
+
+            found = -1
+
+            for i in range(0, len(memory), 8):
+
+                ok = 1
+
+                for j in range(size):
+
+                    if i + j >= len(memory):
+                        ok = 0
+
+                    elif memory[i + j] != 0:
+                        ok = 0
+
+                if ok == 1 and found == -1:
+
+                    for j in range(size):
+                        memory[i + j] = id
+
+                    result = result + [i]
+
+                    id = id + 1
+
+                    found = 1
+
+            if found == -1:
+                result = result + [-1]
+
+        else:
+
+            target = q[1]
+
+            count = 0
+
+            for i in range(len(memory)):
+
+                if memory[i] == target:
+                    memory[i] = 0
+                    count = count + 1
+
+            if count == 0:
+                result = result + [-1]
+            else:
+                result = result + [count]
+
+    return result
+       
+
+memory = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+queries = [[0,3],[0,4],[1,1],[0,2],[1,3]]
+print(solution(memory, queries))  # باید بده: [0,8,3,0,-1]
 
 
+  # Task 1
+def solution(n):
+    result = []
+    for i in range(n):
+       line = "" 
+       for j in range(n):
+           if i == 0 or i == n - 1:
+              line = line + "*"
+           elif j == 0 or j == n - 1:
+               line = line + "*"
+           else:
+               line = line + " "    
+       result.append(line)
+    return result
+        # Test 2
+print("----")
+output = solution(8)
+for row in output:
+    print(row)
+
+# Task 2
+def solution(a, b):
+  a_digits = []
+  for i in range(len(a)):
+      a_digits = a_digits +[ord(a[i]) - ord('0')] 
+  b_digits = []
+  for i in range(len(b)):
+      b_digits = b_digits +[ord(b[i]) - ord('0')]  
+  if len(a_digits) > len(b_digits):
+          max_len = len(a_digits)
+  else:
+          max_len = len(b_digits) 
+  result = ''
+  for i in range(1, max_len + 1):
+          digita = 0
+          digitb = 0
+          if len(a_digits) - i >= 0:
+              digita = a_digits[len(a_digits) - i]
+          if len(b_digits) - i >= 0:
+              digitb = b_digits[len(b_digits) - i]
+          total = digita + digitb  
+          if total >= 10:
+            result = chr(ord('0') + (total // 10)) + chr(ord('0') + (total % 10)) + result
+          else:
+            result = chr(ord('0') + total) + result
+
+  return result
 
 print(solution("99", "99"))     # Expected: "1818"
 print(solution("11", "9"))      # Expected: "110"
+
+# Task 3
+def solution(memory, queries):
+    result =[]
+    id = 1
+    for q in queries:
+        if q[0] == 0:
+            size = q[1]
+            found = -1
+            for i in range(0,len(memory), 8):
+                ok = 1
+                for j in range(size):
+                    if i +j >= len(memory):
+                       ok = 0
+                    elif memory[i + j] != 0:
+                        ok = 0
+                if ok == 1 and found == -1:
+                  for j in range(size):
+                    memory[i + j] =id
+                  result = result +[i]
+                  id += 1
+                  found = 1
+            if found == -1:
+                result = result + [-1]
+        else:
+          target = q[1]
+          count = 0
+          for i in range(len(memory)):
+             if memory [i] == target:
+              memory[i] = 0 
+              count += 1
+          if count == 0:
+              result = result + [-1]
+          else:    
+              result = result + [count]    
+    return result           
+    
+# Test
+memory = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+queries = [[0, 3], [0, 4], [1, 1], [0, 2], [1, 3]]
+print(solution(memory, queries))  # ✅ Output: [0, 8, 3, 0, -1]
+
